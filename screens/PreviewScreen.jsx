@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { View, Image, TouchableOpacity, Text, StyleSheet, ActivityIndicator, useWindowDimensions } from 'react-native';
-import { imageToBase64 } from '../lib/gemini';
+
 
 export default function PreviewScreen({ route, navigation }) {
-  const { photoUri } = route.params;
+  const { photoUri, base64Image: initialBase64 } = route.params;
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPersona, setSelectedPersona] = useState('academic'); // Default persona
   const { width } = useWindowDimensions();
@@ -13,8 +13,7 @@ export default function PreviewScreen({ route, navigation }) {
     if (isProcessing) return;
     try {
       setIsProcessing(true);
-      const base64Image = await imageToBase64(photoUri);
-      navigation.navigate('Result', { base64Image, promptKey: selectedPersona });
+      navigation.navigate('Result', { base64Image: initialBase64, promptKey: selectedPersona });
     } catch (error) {
       console.error('Failed to convert image to base64:', error);
       alert('Failed to process image. Please try again.');

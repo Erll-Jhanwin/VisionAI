@@ -34,9 +34,9 @@ export default function CameraScreen({ navigation }) {
     if (!cameraRef.current || isCapturing) return;
     try {
       setIsCapturing(true);
-      const result = await cameraRef.current.takePictureAsync({ quality: 0.7 });
+      const result = await cameraRef.current.takePictureAsync({ quality: 0.7, base64: true });
       console.log('Photo captured successfully:', result.uri);
-      navigation.navigate('Preview', { photoUri: result.uri });
+      navigation.navigate('Preview', { photoUri: result.uri, base64Image: result.base64 });
     } catch (error) {
       console.error('Failed to take picture:', error);
     } finally {
